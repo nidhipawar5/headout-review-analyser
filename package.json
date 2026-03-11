@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "dotenv": "^16.4.5",
+    "google-play-scraper": "^9.1.1",
+    "node-fetch": "^2.7.0",
+    "node-cron": "^3.0.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
