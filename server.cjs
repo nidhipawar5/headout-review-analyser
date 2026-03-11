@@ -3,7 +3,7 @@
 // Listens on http://localhost:9999
 // Vite (port 5173) proxies  /.netlify/functions/X  →  http://localhost:9999/X
 // ─────────────────────────────────────────────────────────────────────────────
-require("dotenv").config({ path: require("path").resolve(__dirname, "../.env") });
+require("dotenv").config();
 
 const http = require("http");
 const fs   = require("fs");
@@ -13,10 +13,10 @@ const PORT = 9999;
 
 // Load all handlers once at startup
 const HANDLERS = {
-  scrape:        require("./scrape.cjs"),
-  analyze:       require("./analyze.cjs"),
-  "send-email":  require("./send-email.cjs"),
-  schedule:      require("./schedule.cjs"),
+  scrape:        require("./functions/scrape.cjs"),
+  analyze:       require("./functions/analyze.cjs"),
+  "send-email":  require("./functions/send-email.cjs"),
+  schedule:      require("./functions/schedule.cjs"),
 };
 
 // ── Routing ───────────────────────────────────────────────────────────────────
@@ -80,7 +80,7 @@ let cron;
 try { cron = require("node-cron"); } catch { console.warn("[cron] node-cron not installed, scheduler disabled"); }
 
 if (cron) {
-  const STORE = path.join(__dirname, "schedules.json");
+  const STORE = path.join(__dirname, "functions/schedules.json");
   const readS  = () => { try { return fs.existsSync(STORE) ? JSON.parse(fs.readFileSync(STORE, "utf8")) : []; } catch { return []; } };
   const writeS = l  => { try { fs.writeFileSync(STORE, JSON.stringify(l, null, 2)); } catch {} };
 

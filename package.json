@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 5173",
-    "dev:functions": "node functions/server.cjs",
+    "dev:functions": "node server.cjs",
     "build": "vite build",
     "preview": "vite preview"
   },

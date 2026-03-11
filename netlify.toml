@@ -4,9 +4,7 @@
   functions = "functions"
 
 [functions]
-  node_bundler     = "zisi"
-  # server.cjs is local-dev only (runs node-cron scheduler). Exclude from Netlify.
-  excluded_patterns = ["functions/server.cjs"]
+  node_bundler = "zisi"
 
 [[redirects]]
   from   = "/*"
