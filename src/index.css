@@ -1,0 +1,18 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #080D17;
+  color: #EDF2F7;
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes spin   { to { transform: rotate(360deg); } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pulse  { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+
+.fade-up { animation: fadeUp .35s ease both; }
+
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: #0F1623; }
+::-webkit-scrollbar-thumb { background: #1C2942; border-radius: 3px; }
