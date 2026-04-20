@@ -1,13 +1,14 @@
+// Headout travel-tech theme metadata
 export const THEME_META = {
-  "Execution & Performance": { color: "#F87171", priority: "CRITICAL", icon: "⚡" },
-  "KYC & Identity":          { color: "#FBBF24", priority: "HIGH",     icon: "🪪" },
-  "Charges & Transparency":  { color: "#34D399", priority: "FOCUS",    icon: "📊" },
-  "UI & Features":           { color: "#60A5FA", priority: "WATCH",    icon: "🎨" },
+  "Booking & Tickets":  { color: "#FF6B35", priority: "CRITICAL", icon: "🎫" },
+  "Customer Support":   { color: "#FBBF24", priority: "HIGH",     icon: "🧑‍💻" },
+  "Pricing & Value":    { color: "#8000FF", priority: "FOCUS",    icon: "💰" },
+  "Experience Quality": { color: "#34D399", priority: "WATCH",    icon: "⭐" },
 };
 
 export const PRIORITY_STYLE = {
-  CRITICAL: { badge: "#F87171", bg: "#3B0A0A", border: "#7F1D1D" },
-  HIGH:     { badge: "#FBBF24", bg: "#392008", border: "#78350F" },
-  FOCUS:    { badge: "#34D399", bg: "#052E1B", border: "#064E3B" },
-  WATCH:    { badge: "#60A5FA", bg: "#0C1E3E", border: "#1E3A5F" },
+  CRITICAL: { badge: "#FF6B35", bg: "#2A0F00", border: "#7F2D00" },
+  HIGH:     { badge: "#FBBF24", bg: "#2A1A00", border: "#785000" },
+  FOCUS:    { badge: "#B566FF", bg: "#1A0033", border: "#6B00D7" },
+  WATCH:    { badge: "#34D399", bg: "#052E1B", border: "#064E3B" },
 };

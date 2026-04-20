@@ -15,10 +15,10 @@ function fmt(iso) {
 // All counting happens in Node — zero user text ever reaches Gemini
 function aggregate(reviews) {
   const THEMES = [
-    { name: "Execution & Performance", priority: "CRITICAL" },
-    { name: "KYC & Identity",          priority: "HIGH"     },
-    { name: "Charges & Transparency",  priority: "FOCUS"    },
-    { name: "UI & Features",           priority: "WATCH"    },
+    { name: "Booking & Tickets",  priority: "CRITICAL" },
+    { name: "Customer Support",   priority: "HIGH"     },
+    { name: "Pricing & Value",    priority: "FOCUS"    },
+    { name: "Experience Quality", priority: "WATCH"    },
   ];
   const total = reviews.length || 1;
   const pos   = reviews.filter(r => r.rating >= 4).length;
@@ -31,6 +31,11 @@ function aggregate(reviews) {
     const bn = b.filter(r => r.rating <= 2).length;
     const bp = b.filter(r => r.rating >= 4).length;
     const bt = b.length || 1;
+    // top 3 lowest-rated reviews to surface as proof links (no text sent to AI)
+    const sampleReviews = [...b]
+      .sort((a, x) => a.rating - x.rating || b.date - a.date)
+      .slice(0, 3)
+      .map(r => ({ id: r.id, platform: r.platform, rating: r.rating, title: r.title, text: r.text, date: r.date, url: r.url || null }));
     return {
       name, priority,
       reviewCount:   b.length,
@@ -42,6 +47,7 @@ function aggregate(reviews) {
         neutral:  100 - Math.round(bp / bt * 100) - Math.round(bn / bt * 100),
       },
       topIssues: [],
+      sampleReviews,
     };
   });
   themes.sort((a, b) => b.negativeCount - a.negativeCount);
@@ -103,7 +109,7 @@ exports.handler = async (event) => {
   const rows   = themes.map(t => `  ${t.name}: ${t.reviewCount} reviews, ${t.negativeCount} negative, avg ${t.avgRating}/5`).join("\n");
   const period = `${fmt(fromDate)} to ${fmt(toDate)}`;
 
-  const prompt = `You are a senior product analyst at Groww, an Indian stock-trading and mutual-fund app.
+  const prompt = `You are a senior product analyst at Headout, a travel and experiences booking platform.
 
 Here are aggregated user review statistics for ${period}:
 
@@ -120,10 +126,10 @@ Using your knowledge of Indian fintech apps, write a JSON object. Rules:
 The JSON must have exactly these keys:
 headline: one sentence summarising overall user sentiment this period
 sentiment: exactly one of: positive, mixed, negative
-pain_execution: main pain point for Execution and Performance theme
-pain_kyc: main pain point for KYC and Identity theme
-pain_charges: main pain point for Charges and Transparency theme
-pain_ui: main pain point for UI and Features theme
+pain_booking: main pain point for Booking and Tickets theme
+pain_support: main pain point for Customer Support theme
+pain_pricing: main pain point for Pricing and Value theme
+pain_experience: main pain point for Experience Quality theme
 positive_highlight: one thing users genuinely appreciate
 risk_alert: biggest product risk right now
 action1_title: 3-4 word title for top priority action
@@ -148,17 +154,17 @@ email_body: plain-text email body starting with Hi Team and ending with Pulse Bo
   const FB = {
     headline:          "Mixed user sentiment across all themes this period",
     sentiment:         "mixed",
-    pain_execution:    "Payment and withdrawal failures frustrating users",
-    pain_kyc:          "KYC verification delays blocking new users",
-    pain_charges:      "Fee transparency and statement errors reported",
-    pain_ui:           "App crashes and slow load times frustrating users",
-    positive_highlight:"Users appreciate the investment portfolio features",
-    risk_alert:        "Payment failures at risk of causing user churn",
-    action1_title:     "Fix payment failures",  action1_owner: "Eng",     action1_timeline: "This week", action1_description: "Investigate and patch top payment failure error codes", action1_metric: "Payment failure rate below 1%",
-    action2_title:     "Streamline KYC flow",   action2_owner: "Product", action2_timeline: "2 weeks",   action2_description: "Reduce KYC drop-off with clearer guidance and retries",   action2_metric: "KYC completion rate up 15%",
-    action3_title:     "Improve fee clarity",   action3_owner: "Design",  action3_timeline: "1 month",   action3_description: "Show itemised fee breakdown before each transaction",        action3_metric: "Charges complaints down 20%",
-    email_subject:     `Groww Review Pulse | ${period}`,
-    email_body:        `Hi Team,\n\nHere is the weekly Groww review pulse for ${period}.\n\nTotal: ${stats.total} reviews | Avg: ${stats.avg}★ | NPS: ${npsStr}\n\nTop Issues:\n- Execution & Performance: Payment failures\n- KYC & Identity: Verification delays\n- Charges & Transparency: Fee transparency\n\nPulse Bot | Automated Weekly Digest`,
+    pain_booking:      "Tickets not arriving on time and venue entry issues",
+    pain_support:      "Long wait times for refunds and support replies",
+    pain_pricing:      "Hidden conversion fees on international bookings",
+    pain_experience:   "Poorly managed queues at popular attractions",
+    positive_highlight:"Users appreciate the ease of finding skip-the-line tours",
+    risk_alert:        "Customer support delays causing user churn and negative reviews",
+    action1_title:     "Fix booking delays",  action1_owner: "Eng",     action1_timeline: "This week", action1_description: "Investigate and patch ticket delivery delays", action1_metric: "Booking failure rate below 1%",
+    action2_title:     "Improve refund flow",   action2_owner: "Product", action2_timeline: "2 weeks",   action2_description: "Automate refunds for verified cancellations",   action2_metric: "Support backlog drops 15%",
+    action3_title:     "Improve fee clarity",   action3_owner: "Design",  action3_timeline: "1 month",   action3_description: "Show itemised fee breakdown before payment",        action3_metric: "Pricing complaints down 20%",
+    email_subject:     `Headout Review Pulse | ${period}`,
+    email_body:        `Hi Team,\n\nHere is the weekly Headout review pulse for ${period}.\n\nTotal: ${stats.total} reviews | Avg: ${stats.avg}★ | NPS: ${npsStr}\n\nTop Issues:\n- Booking & Tickets: Ticket delivery delays\n- Customer Support: Refund delays\n- Pricing & Value: Hidden fees\n\nPulse Bot | Automated Weekly Digest`,
   };
 
   let g = FB;
@@ -171,18 +177,18 @@ email_body: plain-text email body starting with Hi Team and ending with Pulse Bo
   }
 
   const corePains = {
-    "Execution & Performance": g.pain_execution,
-    "KYC & Identity":          g.pain_kyc,
-    "Charges & Transparency":  g.pain_charges,
-    "UI & Features":           g.pain_ui,
+    "Booking & Tickets":  g.pain_booking,
+    "Customer Support":   g.pain_support,
+    "Pricing & Value":    g.pain_pricing,
+    "Experience Quality": g.pain_experience,
   };
 
   const finalThemes = themes.map(t => ({ ...t, corePain: corePains[t.name] || "See review data", topQuote: "" }));
 
   const actions = [
-    { title: g.action1_title, theme: themes[0]?.name || "Execution & Performance", priority: themes[0]?.priority || "CRITICAL", owner: g.action1_owner, timeline: g.action1_timeline, description: g.action1_description, successMetric: g.action1_metric },
-    { title: g.action2_title, theme: themes[1]?.name || "KYC & Identity",          priority: themes[1]?.priority || "HIGH",     owner: g.action2_owner, timeline: g.action2_timeline, description: g.action2_description, successMetric: g.action2_metric },
-    { title: g.action3_title, theme: themes[2]?.name || "Charges & Transparency",  priority: themes[2]?.priority || "FOCUS",    owner: g.action3_owner, timeline: g.action3_timeline, description: g.action3_description, successMetric: g.action3_metric },
+    { title: g.action1_title, theme: themes[0]?.name || "Booking & Tickets", priority: themes[0]?.priority || "CRITICAL", owner: g.action1_owner, timeline: g.action1_timeline, description: g.action1_description, successMetric: g.action1_metric },
+    { title: g.action2_title, theme: themes[1]?.name || "Customer Support",  priority: themes[1]?.priority || "HIGH",     owner: g.action2_owner, timeline: g.action2_timeline, description: g.action2_description, successMetric: g.action2_metric },
+    { title: g.action3_title, theme: themes[2]?.name || "Pricing & Value",   priority: themes[2]?.priority || "FOCUS",    owner: g.action3_owner, timeline: g.action3_timeline, description: g.action3_description, successMetric: g.action3_metric },
   ];
 
   return {

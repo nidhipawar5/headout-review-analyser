@@ -5,7 +5,16 @@ import PipelineScreen from "./components/PipelineScreen.jsx";
 import ResultsScreen  from "./components/ResultsScreen.jsx";
 import ScheduleScreen from "./components/ScheduleScreen.jsx";
 
-const C = { bg:"#080D17", nav:"#0B1426", border:"#1C2942", teal:"#00D09C", muted:"#7A8BA8" };
+// Headout brand palette — Purps + Candy + deep Slate
+const C = {
+  bg:      "#0D0B14",   // Slate Black
+  nav:     "#13101F",   // Darker nav bar
+  border:  "#2A1F40",   // Purple-tinted border
+  primary: "#8000FF",   // Purps
+  candy:   "#FF6B35",   // Candy (warm coral-orange accent)
+  muted:   "#9B8EB8",   // Muted lavender
+  dim:     "#5A4D75",   // Dimmed text
+};
 
 const fmt = iso => iso ? new Date(iso).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}) : "";
 
@@ -66,36 +75,37 @@ export default function App() {
   function reset() { setPage("home"); setResult(null); setMeta(null); setError(""); setLayers({ active: 0, done: [] }); }
 
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, color: "#EDF2F7" }}>
+    <div style={{ minHeight: "100vh", background: C.bg, color: "#F0EAF8", fontFamily: "Inter, sans-serif" }}>
 
       {/* Nav */}
       <header style={{ background: C.nav, borderBottom: `1px solid ${C.border}`, position: "sticky", top: 0, zIndex: 100 }}>
-        <div style={{ maxWidth: 1040, margin: "0 auto", padding: "0 24px", height: 56, display: "flex", alignItems: "center", gap: 20 }}>
+        <div style={{ maxWidth: 1040, margin: "0 auto", padding: "0 24px", height: 60, display: "flex", alignItems: "center", gap: 20 }}>
           {/* Logo */}
           <div style={{ display:"flex", alignItems:"center", gap: 10, flexShrink: 0 }}>
-            <div style={{ width:32, height:32, borderRadius:8, background:`linear-gradient(135deg,${C.teal},#00A87A)`, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, fontSize:16, color:C.bg, fontFamily:"Syne,sans-serif" }}>G</div>
-            <span style={{ fontFamily:"Syne,sans-serif", fontWeight:800, fontSize:14 }}>Groww Pulse</span>
+            <div style={{ width:34, height:34, borderRadius:10, background:`linear-gradient(135deg,${C.primary},#5500BB)`, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, fontSize:17, color:"#fff", fontFamily:'"Halyard Display", Inter, sans-serif' }}>H</div>
+            <span style={{ fontFamily:'"Halyard Display", Inter, sans-serif', fontWeight:800, fontSize:15, color:"#F0EAF8", letterSpacing:"-0.01em" }}>Headout Pulse</span>
           </div>
 
           {/* Tabs */}
           {[["analyse","📊 Analyse"],["schedule","🗓 Schedules"]].map(([id,label]) => (
             <button key={id} onClick={() => setTab(id)} style={{
               background:"none", border:"none", cursor:"pointer", fontFamily:"inherit",
-              padding:"0 4px", height:56, fontWeight: tab===id ? 700 : 400,
-              color: tab===id ? C.teal : C.muted, fontSize:13,
-              borderBottom: tab===id ? `2px solid ${C.teal}` : "2px solid transparent",
+              padding:"0 4px", height:60, fontWeight: tab===id ? 700 : 400,
+              color: tab===id ? C.primary : C.muted, fontSize:13,
+              borderBottom: tab===id ? `2px solid ${C.primary}` : "2px solid transparent",
+              transition:"color .15s",
             }}>{label}</button>
           ))}
 
           {/* Right info */}
           <div style={{ marginLeft:"auto", display:"flex", gap:8, alignItems:"center" }}>
             {meta && tab==="analyse" && page==="results" && (
-              <span style={{ fontSize:12, color:C.muted, background:"#0F1623", padding:"3px 12px", borderRadius:99, border:`1px solid ${C.border}` }}>
+              <span style={{ fontSize:12, color:C.muted, background:"#1A1428", padding:"3px 12px", borderRadius:99, border:`1px solid ${C.border}` }}>
                 {fmt(meta.fromDate)} → {fmt(meta.toDate)}
               </span>
             )}
             {page==="results" && tab==="analyse" && (
-              <button onClick={reset} style={{ fontSize:12, color:C.muted, background:"transparent", border:`1px solid ${C.border}`, padding:"4px 14px", borderRadius:99, cursor:"pointer", fontFamily:"inherit" }}>
+              <button onClick={reset} style={{ fontSize:12, color:C.muted, background:"transparent", border:`1px solid ${C.border}`, padding:"4px 14px", borderRadius:99, cursor:"pointer", fontFamily:"inherit", transition:"border-color .15s" }}>
                 ← New Analysis
               </button>
             )}
@@ -106,7 +116,7 @@ export default function App() {
       {/* Content */}
       <main style={{ maxWidth: 1040, margin: "0 auto", padding: "32px 24px" }}>
         {error && (
-          <div style={{ marginBottom:20, padding:"12px 16px", background:"#1F0707", border:"1px solid #7F1D1D", borderRadius:10, color:"#FCA5A5", fontSize:13, display:"flex", justifyContent:"space-between" }}>
+          <div style={{ marginBottom:20, padding:"12px 16px", background:"#200808", border:"1px solid #7F1D1D", borderRadius:10, color:"#FCA5A5", fontSize:13, display:"flex", justifyContent:"space-between" }}>
             <span>⚠️ {error}</span>
             <button onClick={()=>setError("")} style={{ background:"none", border:"none", color:"#FCA5A5", cursor:"pointer" }}>✕</button>
           </div>
@@ -123,8 +133,8 @@ export default function App() {
         {tab === "schedule" && <ScheduleScreen />}
       </main>
 
-      <footer style={{ borderTop:`1px solid ${C.border}`, padding:"18px 24px", textAlign:"center", fontSize:12, color:"#3D5070" }}>
-        Groww Review Analyzer · Live Play Store + App Store · Gemini 2.0 Flash · No PII stored
+      <footer style={{ borderTop:`1px solid ${C.border}`, padding:"18px 24px", textAlign:"center", fontSize:12, color:C.dim }}>
+        Headout Review Analyzer · Live Play Store + App Store · Gemini 2.0 Flash · No PII stored
       </footer>
     </div>
   );

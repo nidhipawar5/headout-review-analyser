@@ -38,9 +38,9 @@ function htmlEmail({ headline, fromDate, toDate, stats, themes, actions, positiv
     <div style="background:linear-gradient(135deg,#0F1623,#131C2B);border:1px solid #1C2942;border-radius:16px;overflow:hidden;">
       <div style="padding:28px 32px;border-bottom:1px solid #1C2942;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#00D09C,#00A87A);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#080D17;">G</div>
+          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#8000FF,#A142F4);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#080D17;">H</div>
           <div>
-            <div style="font-size:11px;color:#00D09C;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">Groww Review Pulse</div>
+            <div style="font-size:11px;color:#8000FF;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">Headout Review Pulse</div>
             <div style="font-size:14px;color:#7A8BA8;">${fmt(fromDate)} – ${fmt(toDate)}</div>
           </div>
         </div>
@@ -49,7 +49,7 @@ function htmlEmail({ headline, fromDate, toDate, stats, themes, actions, positiv
 
       <div style="padding:20px 32px;display:flex;gap:16px;border-bottom:1px solid #1C2942;">
         ${[["Reviews", stats.total], ["Avg Rating", stats.avg + "★"], ["NPS Proxy", npsStr], ["Negative", stats.neg]].map(([l, v]) =>
-          `<div style="flex:1;background:#080D17;border:1px solid #1C2942;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:20px;font-weight:800;color:#00D09C;">${v}</div><div style="font-size:11px;color:#7A8BA8;margin-top:4px;">${l}</div></div>`
+          `<div style="flex:1;background:#080D17;border:1px solid #1C2942;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:20px;font-weight:800;color:#8000FF;">${v}</div><div style="font-size:11px;color:#7A8BA8;margin-top:4px;">${l}</div></div>`
         ).join("")}
       </div>
 
@@ -75,7 +75,7 @@ function htmlEmail({ headline, fromDate, toDate, stats, themes, actions, positiv
       </div>
 
       <div style="padding:16px 32px;text-align:center;color:#3D5070;font-size:12px;">
-        Pulse Bot · Automated Weekly Digest · Groww Review Analyzer
+        Pulse Bot · Automated Weekly Digest · Headout Review Analyzer
       </div>
     </div>
   </div>

@@ -1,8 +1,8 @@
 const gplay = require("google-play-scraper");
 const fetch = require("node-fetch");
 
-const PLAY_ID  = "com.nextbillion.groww";
-const IOS_ID   = "1404871703";
+const PLAY_ID  = "com.tourlandish.chronos";
+const IOS_ID   = "1065646194";
 const COUNTRY  = "in";
 
 const CORS = {
@@ -17,11 +17,10 @@ function isoDay(d) { return new Date(d).toISOString().split("T")[0]; }
 
 function theme(title, text) {
   const s = (title + " " + text).toLowerCase();
-  if (/withdrawal|withdraw|debit|money stuck|refund|transfer|bank|upi|payment fail|transaction|funds/.test(s)) return "Execution & Performance";
-  if (/kyc|pan|aadhaar|video kyc|document|identity|verification|account frozen|account lock/.test(s)) return "KYC & Identity";
-  if (/charge|commission|fee|tax|statement|p&l|profit|capital gain|itr|portfolio mismatch|billing/.test(s)) return "Charges & Transparency";
-  if (/otp|crash|slow|lag|loading|error|bug|login|app not|server|glitch/.test(s)) return "Execution & Performance";
-  return "UI & Features";
+  if (/support|refund|service|reply|contact|call|email|agent|help|chat/.test(s)) return "Customer Support";
+  if (/charge|fee|price|expensive|cheap|cost|currency|exchange|pay|money|card|bank/.test(s)) return "Pricing & Value";
+  if (/guide|tour|experience|audio|walk|view|crowd|skip|line|wait|enjoy|bad/.test(s)) return "Experience Quality";
+  return "Booking & Tickets";
 }
 
 async function playReviews(days) {
@@ -35,7 +34,16 @@ async function playReviews(days) {
       for (const r of items) {
         const ts = r.date ? new Date(r.date).getTime() : Date.now();
         if (ts < cutoff) { old = true; continue; }
-        out.push({ id: `ps_${r.id}`, date: isoDay(r.date ?? new Date()), platform: "Play Store", rating: clamp(r.score), title: (r.title || "Review").slice(0, 80), text: (r.text || r.content || "").slice(0, 300), theme: theme(r.title, r.text || r.content || "") });
+        out.push({
+          id: `ps_${r.id}`,
+          date: isoDay(r.date ?? new Date()),
+          platform: "Play Store",
+          rating: clamp(r.score),
+          title: (r.title || "Review").slice(0, 80),
+          text: (r.text || r.content || "").slice(0, 300),
+          theme: theme(r.title, r.text || r.content || ""),
+          url: `https://play.google.com/store/apps/details?id=${PLAY_ID}&reviewId=${encodeURIComponent(r.id || "")}`,
+        });
       }
       if (old || !batch.nextPaginationToken) break;
     } catch (e) { console.error("[scrape] play page", page, e.message); break; }
@@ -60,7 +68,16 @@ async function iosReviews(days) {
         allOld = false;
         const title = r.title?.label ?? "Review";
         const text  = r.content?.label ?? "";
-        out.push({ id: `as_${r.id?.label ?? Math.random().toString(36).slice(2)}`, date: isoDay(r.updated?.label ?? new Date()), platform: "App Store", rating: clamp(r["im:rating"]?.label), title: title.slice(0, 80), text: text.slice(0, 300), theme: theme(title, text) });
+        out.push({
+          id: `as_${r.id?.label ?? Math.random().toString(36).slice(2)}`,
+          date: isoDay(r.updated?.label ?? new Date()),
+          platform: "App Store",
+          rating: clamp(r["im:rating"]?.label),
+          title: title.slice(0, 80),
+          text: text.slice(0, 300),
+          theme: theme(title, text),
+          url: `https://apps.apple.com/in/app/headout/id${IOS_ID}?see-all=reviews`,
+        });
       }
       if (allOld) break;
     } catch (e) { console.error("[scrape] ios page", page, e.message); break; }

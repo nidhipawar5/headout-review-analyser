@@ -1,12 +1,18 @@
-# Groww Review Pulse 📊
+# Headout Review Pulse 📊
 
-An automated pipeline that scrapes live Groww app reviews from Google Play Store and Apple App Store, runs AI analysis via Gemini 2.0 Flash, and delivers a one-page weekly health pulse to your product team.
+An automated pipeline that scrapes live Headout app reviews from Google Play Store and Apple App Store, runs AI analysis via Gemini 2.0 Flash, and delivers a one-page weekly health pulse to your product team.
 
-## Live Link: https://groowwreviewanalyser.netlify.app
+## Live Link: 
 
-![Home](public/screenshots//Screenshot%202026-03-12%20at%203.55.16 AM.png) 
-![Review Analysis](public/screenshots/Screenshot%202026-03-12%20at%203.55.30 AM.png) 
-![Report Scheduler](public/screenshots/Screenshot%202026-03-12%20at%203.55.39 AM.png)
+![alt text](<Screenshot 2026-04-20 at 5.43.33 PM.png>) 
+
+![alt text](<Screenshot 2026-04-20 at 5.43.56 PM.png>) 
+
+![alt text](<Screenshot 2026-04-20 at 5.44.05 PM.png>) 
+
+![alt text](<Screenshot 2026-04-20 at 5.44.19 PM.png>) 
+
+![alt text](<Screenshot 2026-04-20 at 5.44.24 PM.png>)
 
 ---
 
@@ -39,7 +45,7 @@ An automated pipeline that scrapes live Groww app reviews from Google Play Store
 ## Project Structure
 
 ```
-groww-pulse/
+headout-pulse/
 ├── functions/               ← Netlify serverless functions
 │   ├── scrape.cjs           ← Layer 1: live Play Store + App Store scraper
 │   ├── analyze.cjs          ← Layer 2-4: Gemini aggregation + analysis
@@ -81,8 +87,8 @@ groww-pulse/
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/groww-pulse.git
-cd groww-pulse
+git clone https://github.com/YOUR_USERNAME/headout-pulse.git
+cd headout-pulse
 
 # 2. Install all dependencies
 npm install
@@ -155,10 +161,10 @@ Layer 4 ─ Deliver
 
 | Theme | Priority | What it tracks |
 |---|---|---|
-| ⚡ Execution & Performance | CRITICAL | Withdrawals, payment failures, OTP, crashes |
-| 🪪 KYC & Identity | HIGH | Document rejection, video KYC drops, frozen accounts |
-| 📊 Charges & Transparency | FOCUS | P&L errors, hidden fees, tax statements |
-| 🎨 UI & Features | WATCH | Design, navigation, missing features |
+| 🎫 Booking & Tickets | CRITICAL | Tickets not arriving, entry issues, booking failures |
+| 🧑‍💻 Customer Support | HIGH | Refund delays, no agent response, bad service |
+| 💰 Pricing & Value | FOCUS | Hidden fees, currency exchange rates, high cost |
+| ⭐ Experience Quality | WATCH | Tour guide quality, skip-the-line wait times, crowds |
 
 ---
 
