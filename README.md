@@ -2,7 +2,7 @@
 
 An automated pipeline that scrapes live Headout app reviews from Google Play Store and Apple App Store, runs AI analysis via Gemini 2.0 Flash, and delivers a one-page weekly health pulse to your product team.
 
-## Live Link: 
+## Live Link: https://headoutreviewanalyser.netlify.app/
 
 ![Home Screen](public/screenshots/Screenshot%202026-04-20%20at%205.43.33%E2%80%AFPM.png)
 
