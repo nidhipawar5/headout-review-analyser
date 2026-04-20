@@ -4,15 +4,15 @@ An automated pipeline that scrapes live Headout app reviews from Google Play Sto
 
 ## Live Link: 
 
-![alt text](<Screenshot 2026-04-20 at 5.43.33 PM.png>) 
+![Home Screen](public/screenshots/Screenshot%202026-04-20%20at%205.43.33%E2%80%AFPM.png)
 
-![alt text](<Screenshot 2026-04-20 at 5.43.56 PM.png>) 
+![Review Analysis](public/screenshots/Screenshot%202026-04-20%20at%205.43.56%E2%80%AFPM.png)
 
-![alt text](<Screenshot 2026-04-20 at 5.44.05 PM.png>) 
+![Pipeline Running](public/screenshots/Screenshot%202026-04-20%20at%205.44.05%E2%80%AFPM.png)
 
-![alt text](<Screenshot 2026-04-20 at 5.44.19 PM.png>) 
+![Theme Breakdown](public/screenshots/Screenshot%202026-04-20%20at%205.44.19%E2%80%AFPM.png)
 
-![alt text](<Screenshot 2026-04-20 at 5.44.24 PM.png>)
+![Report Scheduler](public/screenshots/Screenshot%202026-04-20%20at%205.44.24%E2%80%AFPM.png)
 
 ---
 
